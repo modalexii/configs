@@ -1,0 +1,44 @@
+# also see default httpd-autoindex.conf for icons and further options
+
+<VirtualHost *:80>
+
+    ServerName host.unsecu.re
+    ServerAdmin admin@unsecu.re
+    DocumentRoot "/usr/local/www/whatever"
+    DirectoryIndex index.html
+
+    <Directory "/usr/local/www/static/host/stores/">
+		Options Indexes
+        IndexOptions NameWidth=* FancyIndexing FoldersFirst SuppressDescription
+        EnableSendfile Off
+        
+        # header
+        HeaderName /header.html
+        # and inline-stylesheet
+		IndexHeadInsert "<link rel=\"stylesheet\" type=\"text/css\" media=\"all\" href=\"https://foo.net/style/indexpages.css\"/>"
+	
+		AllowOverride None
+		<LimitExcept GET POST OPTIONS>
+			Order allow,deny
+			Allow from all
+		</LimitExcept>
+    </Directory>
+    
+    <FilesMatch "^\.ht">
+		Order allow,deny
+		Deny from all
+		Satisfy All
+    </FilesMatch>
+
+    ErrorLog "/var/log/httpd-vhost-hosterror.log"
+    CustomLog "/var/log/httpd-vhost-hostaccess.log" common
+
+    ## debug, info, notice, warn, error, crit, alert, emerg
+    LogLevel info
+
+    ErrorDocument 404 /
+	ErrorDocument 403 /403
+	ErrorDocument 500 /500
+	ErrorDocument 502 /500
+
+</VirtualHost>
