@@ -1,0 +1,18 @@
+# This was used in the Tor gateway router of a weirdo project
+
+# listening
+SocksPort 0
+TransPort 127.0.0.1:9040
+DNSPort 127.0.0.1:5353
+
+# map hidden services
+VirtualAddrNetwork 10.192.0.0/10
+AutomapHostsSuffixes .onion,.exit 	# try with . (dot = map ALL. maybe some security virtue?)
+AutomapHostsOnResolve 1
+
+# logging
+Log notice file /var/log/tor/notices.log
+#Log debug file /usr/local/var/log/tor/debug.log
+
+# service
+RunAsDaemon 1 
